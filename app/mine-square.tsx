@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 
 export type Props = {
@@ -12,7 +12,7 @@ export function MineSquare({ state = 'default', minesNearby = 0, onClick }: Prop
 
     return (
         <View style={[styles.base, stateStyle]} onPointerDown={onClick}>
-            {state === 'cleared' ? minesNearby : null}
+            <Text>{state === 'cleared' ? minesNearby : null}</Text>
         </View>
     );
 }

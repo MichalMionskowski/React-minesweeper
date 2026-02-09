@@ -1,22 +1,16 @@
-import { StyleSheet, View } from "react-native"
+import { Button, StyleSheet, View } from "react-native"
 import { useSetupMines } from "./hooks/useTodos"
 import { MineSquare } from "./mine-square"
 
 export type Props = {
-    size: number
+    size: number,
+    onLoss?: () => void,
+    onWin?: () => void,
+    onReset?: () => void,
 }
 
-export const gridItem = {
-    isBomb: false,
-    isCleared: false,
-    minesNearby: 0,
-    x: 0,
-    y: 0,
-}
-
-export function MineField({ size }: Props) {
-    const { mines, handleClick } = useSetupMines(size)
-
+export function MineField({ size, onLoss, onWin, onReset }: Props) {
+    const { mines, handleClick, handleReset } = useSetupMines({ size, bombs: 3, onLoss: onLoss, onWin: onWin })
     return (
         <View style={styles.container}>
             {Array.from({ length: size }).map((_, i) => (
@@ -28,6 +22,10 @@ export function MineField({ size }: Props) {
                     ))}
                 </View>
             ))}
+            <Button title="Reset" onPress={() => {
+                onReset?.()
+                handleReset()
+            }} />
         </View>
     )
 }
