@@ -2,33 +2,35 @@ import { StyleSheet, View } from 'react-native';
 
 
 export type Props = {
-  state?: 'default' | 'cleared' | 'bomb';
-  onClick: () => void;
+    state?: 'default' | 'cleared' | 'bomb';
+    minesNearby: number;
+    onClick: () => void;
 };
 
-export function MineSquare({state = 'default', onClick}: Props) {
+export function MineSquare({ state = 'default', minesNearby = 0, onClick }: Props) {
+    const stateStyle = state === 'default' ? styles.initial : state === 'cleared' ? styles.cleared : styles.bomb;
 
     return (
-        <View style={state === 'default' ? styles.initial : state === 'cleared' ? styles.cleared : styles.bomb} onPointerDown={onClick}>
-        
+        <View style={[styles.base, stateStyle]} onPointerDown={onClick}>
+            {state === 'cleared' ? minesNearby : null}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    initial: {
+    base: {
         width: 50,
         height: 50,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    initial: {
         backgroundColor: 'gray',
     },
-    cleared : {
-        width: 50,
-        height: 50,
+    cleared: {
         backgroundColor: 'green',
     },
-    bomb : {
-        width: 50,
-        height: 50,
+    bomb: {
         backgroundColor: 'red',
     }
 })

@@ -1,57 +1,30 @@
-import { useCallback, useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
+import { useSetupMines } from "./hooks/useTodos"
 import { MineSquare } from "./mine-square"
 
 export type Props = {
     size: number
 }
 
-const mine = {
+export const gridItem = {
     isBomb: false,
     isCleared: false,
+    minesNearby: 0,
     x: 0,
     y: 0,
 }
 
-export function MineField({size}: Props){
-    const [mines, setMines] = useState(() => Array.from({length: size}).map((_, i) => (
-        Array.from({length: size}).map((_, j) => ({
-            ...mine,
-            x: i,
-            y: j,
-        }))
-    )))
-    
-    useEffect(() => {
-        const bombi = Math.floor(Math.random() * size)
-        const bombj = Math.floor(Math.random() * size)
-        setMines(prev => {
-            const newMines = [...prev];
-            newMines[bombi][bombj] = {
-                ...newMines[bombi][bombj],
-                isBomb: true,
-            }
-            return newMines;
-        })
-    }, [])
+export function MineField({ size }: Props) {
+    const { mines, handleClick } = useSetupMines(size)
 
-    const handleClick = useCallback((i: number,j: number) => {
-        setMines(prev => {
-            const newMines = [...prev];
-            newMines[i][j] = {
-                ...newMines[i][j],
-                isCleared: true,
-            }
-            return newMines;
-        })
-    },[])
-
-    return(
+    return (
         <View style={styles.container}>
-            {Array.from({length: size}).map((_, i) => (
+            {Array.from({ length: size }).map((_, i) => (
                 <View key={i} style={styles.row}>
-                    {Array.from({length: size}).map((_, j) => (
-                        <MineSquare key={`${i}-${j}`} state={mines[i][j].isBomb && mines[i][j].isCleared ? "bomb" : mines[i][j].isCleared ? "cleared" : "default"} onClick={() => handleClick?.(i, j)}/>
+                    {Array.from({ length: size }).map((_, j) => (
+                        <MineSquare key={`${i}-${j}`} state={mines[i][j].isBomb && mines[i][j].isCleared ? "bomb" : mines[i][j].isCleared ? "cleared" : "default"}
+                            minesNearby={mines[i][j].minesNearby}
+                            onClick={() => handleClick?.(i, j)} />
                     ))}
                 </View>
             ))}
