@@ -1,7 +1,7 @@
 import { Button } from "@react-navigation/elements";
 import { useCallback, useState } from "react";
 import { Text, TextInput, View } from "react-native";
-import { StartScreenNavigationProp } from "./navigation/root-navigation";
+import { ScreenNames, StartScreenNavigationProp } from "./navigation/root-navigation";
 
 
 function StartScreen({ navigation }: StartScreenNavigationProp) {
@@ -11,7 +11,7 @@ function StartScreen({ navigation }: StartScreenNavigationProp) {
 
     const handleStart = useCallback((size: number, bombs: number) => {
         setGameStatus({ type: "playing" });
-        navigation.navigate("Game", { size, bombs, onLoss: () => setGameStatus({ type: "lost" }), onWin: () => setGameStatus({ type: "won" }), onReset: () => setGameStatus({ type: "playing" }) })
+        navigation.navigate(ScreenNames.Game, { size, bombs, onLoss: () => setGameStatus({ type: "lost" }), onWin: () => setGameStatus({ type: "won" }), onReset: () => setGameStatus({ type: "playing" }) })
     }, [])
     return (
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", outlineColor: "black", outlineWidth: 1, outlineStyle: "solid" }}>

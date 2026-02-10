@@ -13,14 +13,18 @@ type StartScreenNavigationProps = {
     onStart: (size: number, bombs: number) => void;
 }
 
-type StartScreenNavigationProp = NativeStackScreenProps<RootMinesweeperParamList, 'Start'>;
-type GameScreenNavigationProp = NativeStackScreenProps<RootMinesweeperParamList, 'Game'>;
+type StartScreenNavigationProp = NativeStackScreenProps<RootMinesweeperParamList, typeof ScreenNames.Start>;
+type GameScreenNavigationProp = NativeStackScreenProps<RootMinesweeperParamList, typeof ScreenNames.Game>;
 
 
 type RootMinesweeperParamList = {
-    Start: StartScreenNavigationProps;
-    Game: GameScreenNavigationProps;
+    [ScreenNames.Start]: StartScreenNavigationProps;
+    [ScreenNames.Game]: GameScreenNavigationProps;
 }
     
 export type { GameScreenNavigationProp, RootMinesweeperParamList, StartScreenNavigationProp, StartScreenNavigationProps };
 
+export const ScreenNames = {
+    Start: "Start",
+    Game: "Game",
+} as const;

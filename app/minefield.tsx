@@ -7,6 +7,7 @@ import { GameScreenNavigationProp } from "./navigation/root-navigation";
 export function MineField({ route }: GameScreenNavigationProp) {
     const { size, bombs, onLoss, onWin, onReset } = route.params;
     const { mines, handleClick, handleReset } = useSetupMines({ size, bombs, onLoss, onWin })
+    
     return (
         <View style={styles.container}>
             {Array.from({ length: size }).map((_, i) => (
