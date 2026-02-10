@@ -1,25 +1,14 @@
-import { useState } from "react";
-import { Text, View } from "react-native";
-import { status } from "./game-state";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MineField } from "./minefield";
+import { RootMinesweeperParamList } from "./navigation/root-navigation";
+import StartScreen from "./start";
 
 export default function Index() {
-  const [gameStatus, setGameStatus] = useState<status>({ type: "playing" });
-  
+  const Stack = createNativeStackNavigator<RootMinesweeperParamList>();   
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <MineField size={5} 
-        onLoss={() => setGameStatus({ type: "lost" })}
-        onWin={() => setGameStatus({ type: "won" })}
-        onReset={() => setGameStatus({ type: "playing" })}
-      />
-      <Text>{gameStatus.type}</Text>
-    </View>
+      <Stack.Navigator initialRouteName="Start" >
+        <Stack.Screen name="Start" component={StartScreen} />
+        <Stack.Screen name="Game" component={MineField} />
+      </Stack.Navigator>
   );
 }

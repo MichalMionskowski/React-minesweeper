@@ -1,16 +1,12 @@
-import { Button, StyleSheet, View } from "react-native"
-import { useSetupMines } from "./hooks/useTodos"
-import { MineSquare } from "./mine-square"
+import { Button, StyleSheet, View } from "react-native";
+import { useSetupMines } from "./hooks/useTodos";
+import { MineSquare } from "./mine-square";
+import { GameScreenNavigationProp } from "./navigation/root-navigation";
 
-export type Props = {
-    size: number,
-    onLoss?: () => void,
-    onWin?: () => void,
-    onReset?: () => void,
-}
 
-export function MineField({ size, onLoss, onWin, onReset }: Props) {
-    const { mines, handleClick, handleReset } = useSetupMines({ size, bombs: 3, onLoss: onLoss, onWin: onWin })
+export function MineField({ route }: GameScreenNavigationProp) {
+    const { size, bombs, onLoss, onWin, onReset } = route.params;
+    const { mines, handleClick, handleReset } = useSetupMines({ size, bombs, onLoss, onWin })
     return (
         <View style={styles.container}>
             {Array.from({ length: size }).map((_, i) => (
